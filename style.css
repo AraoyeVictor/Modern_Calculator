@@ -1,0 +1,529 @@
+/* ==========================================================================
+   Modern Calculator Design System & Styles
+   ========================================================================== */
+
+:root {
+  /* Dark Theme (Default) */
+  --bg-page: #0f172a;
+  --bg-page-gradient: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+  --card-bg: rgba(30, 41, 59, 0.82);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.05);
+
+  --display-bg: rgba(15, 23, 42, 0.55);
+  --display-border: rgba(255, 255, 255, 0.04);
+  --display-primary: #f8fafc;
+  --display-secondary: #94a3b8;
+
+  --btn-num-bg: rgba(51, 65, 85, 0.55);
+  --btn-num-hover: rgba(71, 85, 105, 0.8);
+  --btn-num-active: rgba(100, 116, 139, 0.9);
+  --btn-num-text: #f1f5f9;
+
+  --btn-action-bg: rgba(71, 85, 105, 0.45);
+  --btn-action-hover: rgba(100, 116, 139, 0.65);
+  --btn-action-text: #38bdf8;
+
+  --btn-op-bg: rgba(99, 102, 241, 0.2);
+  --btn-op-hover: rgba(99, 102, 241, 0.35);
+  --btn-op-active: rgba(99, 102, 241, 0.5);
+  --btn-op-text: #818cf8;
+
+  --btn-equals-bg: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  --btn-equals-hover: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+  --btn-equals-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+  --btn-equals-text: #ffffff;
+
+  --panel-bg: rgba(15, 23, 42, 0.95);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --history-item-hover: rgba(255, 255, 255, 0.05);
+
+  --kbd-bg: rgba(51, 65, 85, 0.5);
+  --kbd-border: rgba(255, 255, 255, 0.1);
+  --kbd-text: #94a3b8;
+  --brand-color: #6366f1;
+}
+
+[data-theme="light"] {
+  --bg-page: #f1f5f9;
+  --bg-page-gradient: radial-gradient(circle at 50% 0%, #e2e8f0 0%, #f1f5f9 100%);
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-border: rgba(0, 0, 0, 0.06);
+  --card-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.12), 0 0 1px 1px rgba(0, 0, 0, 0.04);
+
+  --display-bg: rgba(248, 250, 252, 0.8);
+  --display-border: rgba(0, 0, 0, 0.04);
+  --display-primary: #0f172a;
+  --display-secondary: #64748b;
+
+  --btn-num-bg: #ffffff;
+  --btn-num-hover: #f1f5f9;
+  --btn-num-active: #e2e8f0;
+  --btn-num-text: #1e293b;
+
+  --btn-action-bg: #e0f2fe;
+  --btn-action-hover: #bae6fd;
+  --btn-action-text: #0284c7;
+
+  --btn-op-bg: #eef2ff;
+  --btn-op-hover: #e0e7ff;
+  --btn-op-active: #c7d2fe;
+  --btn-op-text: #4f46e5;
+
+  --btn-equals-bg: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  --btn-equals-hover: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  --btn-equals-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+  --btn-equals-text: #ffffff;
+
+  --panel-bg: rgba(255, 255, 255, 0.97);
+  --panel-border: rgba(0, 0, 0, 0.08);
+  --history-item-hover: rgba(0, 0, 0, 0.04);
+
+  --kbd-bg: #e2e8f0;
+  --kbd-border: rgba(0, 0, 0, 0.1);
+  --kbd-text: #64748b;
+  --brand-color: #4f46e5;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-page);
+  background-image: var(--bg-page-gradient);
+  color: var(--display-primary);
+  padding: 1.5rem 1rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 380px;
+}
+
+/* Calculator Card */
+.calculator-card {
+  position: relative;
+  width: 100%;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 28px;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Header */
+.calculator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.25rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  color: var(--display-secondary);
+}
+
+.brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--brand-color);
+  box-shadow: 0 0 8px var(--brand-color);
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--display-secondary);
+  padding: 0.4rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+
+.icon-btn:hover {
+  background: var(--btn-num-hover);
+  color: var(--display-primary);
+  transform: translateY(-1px);
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Display */
+.display-container {
+  position: relative;
+  background: var(--display-bg);
+  border: 1px solid var(--display-border);
+  border-radius: 18px;
+  padding: 1.25rem 1rem 0.75rem 1rem;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: right;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.display-container:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.previous-operand {
+  color: var(--display-secondary);
+  font-size: 1rem;
+  min-height: 1.4rem;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.current-operand-wrapper {
+  overflow: hidden;
+}
+
+.current-operand {
+  font-family: 'JetBrains Mono', 'Outfit', monospace;
+  color: var(--display-primary);
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1.15;
+  word-break: break-all;
+  white-space: nowrap;
+  letter-spacing: -0.5px;
+  transition: font-size 0.15s ease;
+}
+
+/* Copied tooltip */
+.copied-toast {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: var(--brand-color);
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  font-weight: 500;
+}
+
+.copied-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Keypad Grid */
+.buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.btn {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  height: 60px;
+  border-radius: 18px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active, .btn.pressed {
+  transform: scale(0.93);
+}
+
+/* Button Variants */
+.btn-number {
+  background: var(--btn-num-bg);
+  color: var(--btn-num-text);
+  border-color: rgba(255, 255, 255, 0.03);
+}
+
+.btn-number:hover {
+  background: var(--btn-num-hover);
+}
+
+.btn-action {
+  background: var(--btn-action-bg);
+  color: var(--btn-action-text);
+  font-weight: 600;
+}
+
+.btn-action:hover {
+  background: var(--btn-action-hover);
+}
+
+.btn-operator {
+  background: var(--btn-op-bg);
+  color: var(--btn-op-text);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.btn-operator:hover {
+  background: var(--btn-op-hover);
+}
+
+.btn-operator.active-op {
+  background: var(--brand-color);
+  color: #ffffff;
+  box-shadow: 0 0 12px var(--brand-color);
+}
+
+.btn-equals {
+  background: var(--btn-equals-bg);
+  color: var(--btn-equals-text);
+  box-shadow: var(--btn-equals-shadow);
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.btn-equals:hover {
+  background: var(--btn-equals-hover);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.55);
+}
+
+/* History Panel Drawer */
+.history-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--panel-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 28px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 10;
+  transform: translateY(105%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.history-panel.open {
+  transform: translateY(0);
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 0.75rem;
+}
+
+.history-header h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--display-primary);
+}
+
+.history-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.text-btn {
+  background: transparent;
+  border: none;
+  color: var(--btn-action-text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.text-btn:hover {
+  background: var(--btn-action-bg);
+}
+
+.icon-btn-small {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--display-secondary);
+  padding: 0.3rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.icon-btn-small:hover {
+  background: var(--btn-num-hover);
+  color: var(--display-primary);
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-right: 0.25rem;
+}
+
+.history-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 10px;
+}
+
+.history-item {
+  padding: 0.75rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  border: 1px solid transparent;
+}
+
+.history-item:hover {
+  background: var(--history-item-hover);
+  border-color: var(--panel-border);
+  transform: translateX(-2px);
+}
+
+.history-item-expr {
+  font-size: 0.85rem;
+  color: var(--display-secondary);
+}
+
+.history-item-res {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--display-primary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.empty-history {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--display-secondary);
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+/* Keyboard Hints Footer */
+.keyboard-hints {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  font-size: 0.78rem;
+  color: var(--kbd-text);
+}
+
+.keyboard-hints kbd {
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--display-primary);
+  margin-right: 0.3rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile & Small Screen Tweaks */
+@media (max-width: 420px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  .calculator-card {
+    padding: 1.25rem;
+    border-radius: 24px;
+    gap: 1rem;
+  }
+
+  .btn {
+    height: 54px;
+    font-size: 1.15rem;
+    border-radius: 14px;
+  }
+
+  .current-operand {
+    font-size: 2.1rem;
+  }
+}
